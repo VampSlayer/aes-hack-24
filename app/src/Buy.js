@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  authenticitySchemaId,
   ownershipShemaId,
   getAttestationsForItem,
 } from "./attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Network, ethers } from "ethers";
+import { ethers } from "ethers";
 import Attestations from "./components/Attestations";
 
 export default function Buy() {
-  const [params, _] = useSearchParams();
+  const [params] = useSearchParams();
   const itemId = params.get("item_id");
 
   const [attestations, setAttestations] = useState(undefined);
   const [provider, setProvider] = useState(undefined);
-
-  async function get() {
-    const attestations = await getAttestationsForItem(itemId);
-    setAttestations(attestations);
-  }
 
   useEffect(() => {
     async function connect() {
@@ -30,9 +24,14 @@ export default function Buy() {
         setProvider(new ethers.BrowserProvider(window.ethereum));
       }
     }
+    async function get() {
+      const attestations = await getAttestationsForItem(itemId);
+      setAttestations(attestations);
+    }
+
     get();
     connect();
-  }, []);
+  }, [itemId]);
 
   const onBuy = async () => {
     const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
