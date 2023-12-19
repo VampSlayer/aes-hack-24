@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Buy from "./Buy";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Info from "./Info";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/buy",
     element: <Buy />,
