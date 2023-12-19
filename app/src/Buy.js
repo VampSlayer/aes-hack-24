@@ -14,6 +14,7 @@ export default function Buy() {
   const itemId = params.get("item_id");
 
   const [attestations, setAttestations] = useState(undefined);
+  const [provider, setProvider] = useState(undefined);
 
   async function get() {
     const attestations = await getAttestationsForItem(itemId);
@@ -21,7 +22,16 @@ export default function Buy() {
   }
 
   useEffect(() => {
+    async function connect() {
+      if (window.ethereum == null) {
+        console.log("MetaMask not installed; using read-only defaults");
+        setProvider(ethers.getDefaultProvider("sepolia"));
+      } else {
+        setProvider(new ethers.BrowserProvider(window.ethereum));
+      }
+    }
     get();
+    connect();
   }, []);
 
   const onBuy = async () => {
@@ -31,28 +41,26 @@ export default function Buy() {
 
     const eas = new EAS(easContractAddress);
 
-    let signer = null;
-    let provider;
-    if (window.ethereum == null) {
-      console.log("MetaMask not installed; using read-only defaults");
-      provider = ethers.getDefaultProvider();
-    } else {
-      provider = new ethers.BrowserProvider(window.ethereum);
-      signer = await provider.getSigner();
+    const anyForRevoke = attestations?.filter(
+      (x) => x.schemaId === ownershipShemaId && x.revoked === false
+    );
+
+    const signer = await provider.getSigner();
+
+    eas.connect(signer);
+
+    if (anyForRevoke.length) {
+      console.log(anyForRevoke);
+      const revokeTx = await eas.revoke({
+        schema: schemaUID,
+        data: {
+          uid: anyForRevoke[0].id,
+        },
+      });
+      debugger;
+
+      await revokeTx.wait();
     }
-
-    await eas.connect(signer);
-    // Revoke the last one onwed
-    const revokeTx = await eas.revoke({
-      schema: schemaUID,
-      data: {
-        uid: attestations?.filter(
-          (x) => x.schemaId === ownershipShemaId && x.revoked === false
-        ),
-      },
-    });
-
-    await revokeTx.wait();
 
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder("uint16 uniqueId");
@@ -62,7 +70,7 @@ export default function Buy() {
     const tx = await eas.attest({
       schema: schemaUID,
       data: {
-        recipient: "0x750438E8BFD00206329B328DC7B4FE463ccAbe9b",
+        recipient: "0xe7Aa2BAFD77bB007AA7E71247Bfd45c53af85B13",
         expirationTime: 0,
         revocable: true, // Be aware that if your schema is not revocable, this MUST be false
         data: encodedData,
