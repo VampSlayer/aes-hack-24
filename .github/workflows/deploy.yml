@@ -34,13 +34,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      - run: cd app
-      - run: npm install
-      - run: npm run build
+      - run: npm install --prefix ./app
+      - run: npm run build --prefix ./app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./build
+          path: ./app/build
 
   # Deployment job
   deploy:
