@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Attestify</title>
+    <script src="https://cdn.jsdelivr.net/npm/@ethereum-attestation-service/eas-contracts@1.3.7/dist/typechain-types/index.min.js"></script>
+  </head>
+  <body>
+    <script>
+      var query = `query Query($where: AttestationWhereInput) {
+                attestations(where: $where) {
+                    id
+                    data
+                    decodedDataJson
+                    recipient
+                    attester
+                    time
+                    timeCreated
+                    expirationTime
+                    revocationTime
+                    refUID
+                    revocable
+                    revoked
+                    txid
+                    schemaId
+                    ipfsHash
+                    isOffchain
+                }
+                }`;
+
+      var params = new URL(document.location).searchParams;
+      var itemId = params.item_id;
+
+      document.getElementById("item-id").textContent = itemId;
+
+      var variables = {
+        where: {
+          schemaId: {
+            in: [
+              "0x7437bb8d227912ea09094f45194d9419bb885ce3288f1b2bb6d51fee16abd3cd",
+              "0x90212d44d929d10cbe1a0a2d105b5f2527b50e84b520e3259c69d2ad5fb6e702",
+            ],
+          },
+          decodedDataJson: {
+            contains: itemId,
+          },
+        },
+      };
+
+      fetch("https://sepolia.easscan.org/graphql", {
+        method: "POST",
+        body: JSON.stringify({ query, variables }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => response.json().then((x) => console.log(x)));
+    </script>
+    <div>
+      <h1>Item Id</h1>
+      <h1 id="item-id">46455</h1>
+    </div>
+  </body>
+</html>
