@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { publicItems } from "./attestations-client";
+import { privateItems, publicItems } from "./attestations-client";
 
 export default function Home() {
   return (
@@ -39,14 +39,14 @@ export default function Home() {
             <th>Buy</th>
           </thead>
           <tbody>
-            {publicItems.map((item) => (
+            {privateItems.map((item) => (
               <tr>
                 <td>{item.id}</td>
                 <td>
-                  <Link to={`/info?item_id=${item.id}`}>Info</Link>
+                  <Link to={`/privateInfo?item_id=${item.id}`}>Info</Link>
                 </td>
                 <td>
-                  <Link to={`/buy?item_id=${item.id}`}>Buy</Link>
+                  <Link to={`/privateBuy?item_id=${item.id}`}>Buy</Link>
                 </td>
               </tr>
             ))}
