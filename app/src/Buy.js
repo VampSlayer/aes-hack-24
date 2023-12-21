@@ -27,6 +27,7 @@ const marketplaces = [
   "A Bay",
 ];
 
+// eslint-disable-next-line no-extend-native
 Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };

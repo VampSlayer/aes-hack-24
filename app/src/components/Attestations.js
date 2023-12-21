@@ -1,5 +1,3 @@
-import { authenticitySchemaId, ownershipShemaId } from "../attestations-client";
-
 export default function Attestations({ itemId, attestations }) {
   return (
     <div>
