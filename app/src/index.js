@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import Buy from "./Buy";
-import PrivateBuy from "./PrivateBuy";
+import Buy from "./public/Buy";
+import PrivateBuy from "./private/PrivateBuy";
 
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import Info from "./Info";
-import PrivateInfo from "./PrivateInfo";
+import Info from "./public/Info";
+import PrivateInfo from "./private/PrivateInfo";
 
 import Home from "./Home";
 import Analytics from "./Analytics";

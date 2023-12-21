@@ -1,14 +1,14 @@
+import Attestations from "./Attestations";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   authenticitySchemaId,
-  getAttestationsForPrivateItem,
-} from "./attestations-client";
+  getAttestationsForItem,
+} from "../attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
-import { PrivateAttestation } from "./PrivateAttestation";
 
-export default function PrivateInfo() {
+export default function Info() {
   const [params] = useSearchParams();
   const itemId = params.get("item_id");
 
@@ -17,11 +17,11 @@ export default function PrivateInfo() {
 
   useEffect(() => {
     async function get() {
-      setAttestations(await getAttestationsForPrivateItem(itemId));
+      setAttestations(await getAttestationsForItem(itemId));
     }
 
     get();
-  }, [itemId, attestations]);
+  }, [itemId]);
 
   const onAuthenticate = async () => {
     setLoading(true);
@@ -55,13 +55,14 @@ export default function PrivateInfo() {
       },
     });
     await tx.wait();
+    setAttestations(await getAttestationsForItem(itemId));
     setLoading(false);
   };
 
   return (
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       {attestations?.authenticity?.length ? (
-        <PrivateAttestation attestations={attestations} itemId={itemId} />
+        <Attestations attestations={attestations} itemId={itemId} />
       ) : (
         <div>
           <h2>This item has never been Authenticated</h2>

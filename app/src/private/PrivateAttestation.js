@@ -1,7 +1,7 @@
-import { publicItems } from "./attestations-client";
-import AttestationsTable from "./AttestationsTable";
+import { privateItems } from "../attestations-client";
+import PrivateAttestationsTable from "./PrivateAttestationsTable";
 
-export default function Attestations({ itemId, attestations }) {
+export const PrivateAttestation = ({ itemId, attestations }) => {
   return (
     <div>
       <div>
@@ -10,7 +10,7 @@ export default function Attestations({ itemId, attestations }) {
           <img
             style={{ width: "150px", height: "150px" }}
             alt="product"
-            src={publicItems.find((x) => x.id === itemId)?.src}
+            src={privateItems.find((x) => x.id === itemId)?.src}
           />
         </div>
       </div>
@@ -34,10 +34,8 @@ export default function Attestations({ itemId, attestations }) {
       </div>
       <div>
         <h2>Ownership</h2>
-        <AttestationsTable
-          attestations={attestations?.ownership}
-        ></AttestationsTable>
+        <PrivateAttestationsTable attestations={attestations?.ownership} />
       </div>
     </div>
   );
-}
+};

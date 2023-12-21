@@ -1,4 +1,4 @@
-export default function PrivateAttestationsTable({ attestations, loading }) {
+export default function PrivateAttestationsTable({ attestations }) {
   return (
     <table className="table">
       <thead>
@@ -11,11 +11,6 @@ export default function PrivateAttestationsTable({ attestations, loading }) {
         </tr>
       </thead>
       <tbody>
-        {loading && (
-          <tr>
-            <div className="spinner-border" role="status"></div>
-          </tr>
-        )}
         {attestations?.map((x, index) => (
           <tr key={x.id}>
             <td>

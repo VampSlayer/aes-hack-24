@@ -1,4 +1,4 @@
-import AttestationsTable from "./AttestationsTable";
+import AttestationsTable from "./public/AttestationsTable";
 import { useEffect, useState } from "react";
 import { getAllOwnershipAttestations } from "./attestations-client";
 import { Link } from "react-router-dom";

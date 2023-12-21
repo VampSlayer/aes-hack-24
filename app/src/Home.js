@@ -16,13 +16,15 @@ export default function Home() {
         <h2>Public Items</h2>
         <table className="table">
           <thead>
-            <th>Id</th>
-            <th>Info</th>
-            <th>Buy</th>
+            <tr>
+              <th>Id</th>
+              <th>Info</th>
+              <th>Buy</th>
+            </tr>
           </thead>
           <tbody>
             {publicItems.map((item) => (
-              <tr>
+              <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>
                   <Link to={`/info?item_id=${item.id}`}>Info</Link>
@@ -39,13 +41,15 @@ export default function Home() {
         <h2>Private Items</h2>
         <table className="table">
           <thead>
-            <th>Id</th>
-            <th>Info</th>
-            <th>Buy</th>
+            <tr>
+              <th>Id</th>
+              <th>Info</th>
+              <th>Buy</th>
+            </tr>
           </thead>
           <tbody>
             {privateItems.map((item) => (
-              <tr>
+              <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>
                   <Link to={`/privateInfo?item_id=${item.id}`}>Info</Link>

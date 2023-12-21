@@ -4,7 +4,7 @@ import {
   ownershipShemaId,
   getAttestationsForItem,
   publicItems,
-} from "./attestations-client";
+} from "../attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
 import Attestations from "./Attestations";

@@ -4,7 +4,7 @@ import {
   getAttestationsForPrivateItem,
   privateItems,
   privateOwnershipSchemaId,
-} from "./attestations-client";
+} from "../attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
 import { PrivateAttestation } from "./PrivateAttestation";
@@ -62,7 +62,7 @@ export default function PrivateBuy() {
     }
 
     get();
-  }, [itemId, attestations]);
+  }, [itemId]);
 
   const onBuy = async () => {
     setLoading(true);
@@ -87,6 +87,8 @@ export default function PrivateBuy() {
     );
 
     eas.connect(signer);
+
+    debugger;
 
     if (anyForRevoke.length) {
       const revoke = await eas.revoke({
@@ -141,9 +143,10 @@ export default function PrivateBuy() {
           <h2>Price: ${priceOfItem}</h2>
         </div>
         {loading ? (
-          <div>
-            <h2>Purchasing & Authenticating 🧾 </h2>
-          </div>
+          <h2>
+            Purchasing & Authenticating 🧾{" "}
+            <div className="spinner-border" role="status"></div>
+          </h2>
         ) : (
           <button
             className="btn btn-dark"
@@ -180,11 +183,7 @@ export default function PrivateBuy() {
           <code>{merkleRoot}</code>)
         </div>
       </div>
-      <PrivateAttestation
-        attestations={attestations}
-        itemId={itemId}
-        loading={loading}
-      />
+      <PrivateAttestation attestations={attestations} itemId={itemId} />
     </div>
   );
 }
