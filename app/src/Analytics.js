@@ -1,6 +1,7 @@
 import AttestationsTable from "./AttestationsTable";
 import { useEffect, useState } from "react";
 import { getAllOwnershipAttestations } from "./attestations-client";
+import { Link } from "react-router-dom";
 
 const average = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
 const mode = (arr) =>
@@ -136,7 +137,20 @@ export default function Analytics() {
         <h2>Sales</h2>
         {Object.keys(grouped || {}).map((x) => (
           <div key={x}>
-            <h3>{x}</h3>
+            <h3>
+              Item{" "}
+              <Link
+                to={`/info?item_id=${
+                  grouped[x][0]?.data?.find((x) => x.name === "uniqueId")?.value
+                    ?.value
+                }`}
+              >
+                {
+                  grouped[x][0]?.data?.find((x) => x.name === "uniqueId")?.value
+                    ?.value
+                }
+              </Link>
+            </h3>
             <AttestationsTable attestations={grouped[x]}></AttestationsTable>
           </div>
         ))}
