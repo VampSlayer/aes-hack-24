@@ -2,6 +2,8 @@ export const authenticitySchemaId =
   "0x7437bb8d227912ea09094f45194d9419bb885ce3288f1b2bb6d51fee16abd3cd";
 export const ownershipShemaId =
   "0x164e58c175d73aa5c78b801431fe1bfa7082e698a57ae136dfce4be47f869c38";
+export const privateOwnershipSchemaId =
+  "0x2ab26750209e6f05934894519cc4e74392e45b8439017babf3f0d64ad99cae3e";
 
 export async function getAttestationsForItem(itemId) {
   var query = `query Query($where: AttestationWhereInput) {
@@ -69,6 +71,74 @@ export async function getAttestationsForItem(itemId) {
   };
 }
 
+export async function getAttestationsForPrivateItem(itemId) {
+  var query = `query Query($where: AttestationWhereInput) {
+        attestations(where: $where) {
+            id
+            data
+            decodedDataJson
+            recipient
+            attester
+            time
+            timeCreated
+            expirationTime
+            revocationTime
+            refUID
+            revocable
+            revoked
+            txid
+            schemaId
+            ipfsHash
+            isOffchain
+        }
+        }`;
+
+  var variables = {
+    where: {
+      schemaId: {
+        in: [
+          authenticitySchemaId, // authenticity
+          privateOwnershipSchemaId, // ownership
+        ],
+      },
+      decodedDataJson: {
+        contains: itemId,
+      },
+    },
+  };
+
+  const response = await fetch("https://sepolia.easscan.org/graphql", {
+    method: "POST",
+    body: JSON.stringify({ query, variables }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const attestations = (await response.json())?.data?.attestations;
+  console.log(attestations);
+  var authenticityAttestation = attestations?.filter(
+    (x) => x.schemaId === authenticitySchemaId
+  );
+  var privateOwnershipAttestations = attestations?.filter(
+    (x) => x.schemaId === privateOwnershipSchemaId
+  );
+
+  var mappedPrivateOwnershipAttestations = privateOwnershipAttestations?.map(
+    (x) => {
+      x.data = JSON.parse(x.decodedDataJson);
+      return x;
+    }
+  );
+
+  return {
+    authenticity: authenticityAttestation,
+    ownership: mappedPrivateOwnershipAttestations?.sort((a, b) => {
+      return b.time - a.time;
+    }),
+  };
+}
+
 export async function getAllOwnershipAttestations() {
   var query = `query Query($where: AttestationWhereInput) {
     attestations(where: $where) {
@@ -131,7 +201,7 @@ export const publicItems = [
     src: "https://www.merchoid.com/media/mf_webp/jpeg/media/catalog/product/cache/65c63282a2b3bd0da0ec5b004bcde549/s/p/spidermannew.webp",
   },
   {
-    id: "98765",
+    id: "58765",
     src: "https://m.media-amazon.com/images/I/61MaiRgtJWL._AC_UY580_.jpg",
   },
   {
@@ -144,4 +214,13 @@ export const publicItems = [
   },
 ];
 
-export const privateItems = [];
+export const privateItems = [
+  {
+    id: "37123",
+    src: "https://cdn.shopify.com/s/files/1/0877/6118/files/footballglovesstickyspray_large.jpg?v=1530560723",
+  },
+  {
+    id: "37113",
+    src: "https://hips.hearstapps.com/hmg-prod/images/how-to-keep-ducks-call-ducks-1615457181.jpg?resize=2048:*",
+  },
+];

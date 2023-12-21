@@ -47,5 +47,8 @@
   },
   "browser": {
     "crypto": false
+  },
+  "prettier": {
+    "singleQuote": false
   }
 }
