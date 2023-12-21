@@ -1,7 +1,7 @@
 export const authenticitySchemaId =
   "0x7437bb8d227912ea09094f45194d9419bb885ce3288f1b2bb6d51fee16abd3cd";
 export const ownershipShemaId =
-  "0x90212d44d929d10cbe1a0a2d105b5f2527b50e84b520e3259c69d2ad5fb6e702";
+  "0x164e58c175d73aa5c78b801431fe1bfa7082e698a57ae136dfce4be47f869c38";
 
 export async function getAttestationsForItem(itemId) {
   var query = `query Query($where: AttestationWhereInput) {
@@ -47,5 +47,24 @@ export async function getAttestationsForItem(itemId) {
     },
   });
 
-  return (await response.json())?.data?.attestations;
+  const attestations = (await response.json())?.data?.attestations;
+
+  var authenticityAttestation = attestations?.filter(
+    (x) => x.schemaId === authenticitySchemaId
+  );
+  var ownershipAttestations = attestations?.filter(
+    (x) => x.schemaId === ownershipShemaId
+  );
+
+  var mappedOwnershipAttestations = ownershipAttestations?.map((x) => {
+    x.data = JSON.parse(x.decodedDataJson);
+    return x;
+  });
+
+  return {
+    authenticity: authenticityAttestation,
+    ownership: mappedOwnershipAttestations.sort((a, b) => {
+      return b.time - a.time;
+    }),
+  };
 }
