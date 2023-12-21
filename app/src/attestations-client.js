@@ -63,10 +63,62 @@ export async function getAttestationsForItem(itemId) {
 
   return {
     authenticity: authenticityAttestation,
-    ownership: mappedOwnershipAttestations.sort((a, b) => {
+    ownership: mappedOwnershipAttestations?.sort((a, b) => {
       return b.time - a.time;
     }),
   };
+}
+
+export async function getAllOwnershipAttestations() {
+  var query = `query Query($where: AttestationWhereInput) {
+    attestations(where: $where) {
+        id
+        data
+        decodedDataJson
+        recipient
+        attester
+        time
+        timeCreated
+        expirationTime
+        revocationTime
+        refUID
+        revocable
+        revoked
+        txid
+        schemaId
+        ipfsHash
+        isOffchain
+    }
+    }`;
+
+  var variables = {
+    where: {
+      schemaId: { in: [ownershipShemaId] },
+    },
+  };
+
+  const response = await fetch("https://sepolia.easscan.org/graphql", {
+    method: "POST",
+    body: JSON.stringify({ query, variables }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const attestations = (await response.json())?.data?.attestations;
+
+  var ownershipAttestations = attestations?.filter(
+    (x) => x.decodedDataJson !== ""
+  );
+
+  var mappedOwnershipAttestations = ownershipAttestations?.map((x) => {
+    x.data = JSON.parse(x.decodedDataJson);
+    return x;
+  });
+
+  return mappedOwnershipAttestations.sort((a, b) => {
+    return b.time - a.time;
+  });
 }
 
 export const items = [

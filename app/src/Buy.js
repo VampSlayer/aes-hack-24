@@ -7,7 +7,7 @@ import {
 } from "./attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
-import Attestations from "./components/Attestations";
+import Attestations from "./Attestations";
 
 const buyers = [
   "0x750438E8BFD00206329B328DC7B4FE463ccAbe9b",

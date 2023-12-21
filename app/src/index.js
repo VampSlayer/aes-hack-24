@@ -6,6 +6,7 @@ import Buy from "./Buy";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Info from "./Info";
 import Home from "./Home";
+import Analytics from "./Analytics";
 
 const router = createHashRouter([
   {
@@ -19,6 +20,10 @@ const router = createHashRouter([
   {
     path: "/info",
     element: <Info />,
+  },
+  {
+    path: "/analytics",
+    element: <Analytics />,
   },
 ]);
 
