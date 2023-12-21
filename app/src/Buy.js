@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   ownershipShemaId,
   getAttestationsForItem,
-  items,
+  publicItems,
 } from "./attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
@@ -121,7 +121,7 @@ export default function Buy() {
           <img
             style={{ width: "500px", height: "500px" }}
             alt="product"
-            src={items.find((x) => x.id === itemId)?.src}
+            src={publicItems.find((x) => x.id === itemId)?.src}
           />
         </div>
         <div>

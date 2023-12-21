@@ -1,4 +1,4 @@
-import { items } from "./attestations-client";
+import { publicItems } from "./attestations-client";
 import AttestationsTable from "./AttestationsTable";
 
 export default function Attestations({ itemId, attestations }) {
@@ -10,7 +10,7 @@ export default function Attestations({ itemId, attestations }) {
           <img
             style={{ width: "150px", height: "150px" }}
             alt="product"
-            src={items.find((x) => x.id === itemId)?.src}
+            src={publicItems.find((x) => x.id === itemId)?.src}
           />
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function Attestations({ itemId, attestations }) {
       <div>
         <h2>Ownership</h2>
         <AttestationsTable
-          attestations={attestations.ownership}
+          attestations={attestations?.ownership}
         ></AttestationsTable>
       </div>
     </div>

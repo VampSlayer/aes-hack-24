@@ -121,7 +121,7 @@ export async function getAllOwnershipAttestations() {
   });
 }
 
-export const items = [
+export const publicItems = [
   {
     id: "46455",
     src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqjo-4tOpsXBPLBNQeEW6tSPGk6Kt1OzDoQ&usqp=CAU",
@@ -143,3 +143,5 @@ export const items = [
     src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlolfuzlb7FKUs7XhXYQnQm_WgmsHPXARMZg&usqp=CAU",
   },
 ];
+
+export const privateItems = [];
