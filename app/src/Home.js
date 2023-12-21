@@ -3,7 +3,7 @@ import { publicItems } from "./attestations-client";
 
 export default function Home() {
   return (
-    <div>
+    <div className="p-5">
       <div>
         <Link to={`/analytics`}>Analytics</Link>
       </div>

@@ -13,11 +13,29 @@ const mode = (arr) =>
 
 export default function Analytics() {
   const [attestations, setAttestations] = useState(undefined);
+  const [grouped, setGrouped] = useState(undefined);
   const [info, setInfo] = useState(undefined);
 
   useEffect(() => {
     async function get() {
-      setAttestations(await getAllOwnershipAttestations());
+      const attestations = await getAllOwnershipAttestations();
+
+      const grouped = attestations.reduce(
+        (result, item) => ({
+          ...result,
+          [item?.data?.find((x) => x.name === "uniqueId")?.value?.value]: [
+            ...(result[
+              item?.data?.find((x) => x.name === "uniqueId")?.value?.value
+            ] || []),
+            item,
+          ],
+        }),
+        {}
+      );
+
+      setGrouped(grouped);
+
+      setAttestations(attestations);
     }
     get();
   }, []);
@@ -78,7 +96,7 @@ export default function Analytics() {
   return (
     <div>
       <h1>BrandX Analytics</h1>
-      <div className="containter">
+      <div className="containter p-5">
         <div className="row">
           <div className="col">
             <div className="card">
@@ -114,9 +132,14 @@ export default function Analytics() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="p-5">
         <h2>Sales</h2>
-        <AttestationsTable attestations={attestations}></AttestationsTable>
+        {Object.keys(grouped || {}).map((x) => (
+          <div key={x}>
+            <h3>{x}</h3>
+            <AttestationsTable attestations={grouped[x]}></AttestationsTable>
+          </div>
+        ))}
       </div>
     </div>
   );

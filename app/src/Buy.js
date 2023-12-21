@@ -113,7 +113,10 @@ export default function Buy() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div
+      style={{ display: "flex", justifyContent: "space-around" }}
+      className="p-5"
+    >
       <div>
         <h1>{marketplace}</h1>
         <h2>Christmas Jumper</h2>
