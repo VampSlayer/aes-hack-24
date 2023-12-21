@@ -24,7 +24,7 @@ const marketplaces = [
   "Unmintable",
   "NormalRare",
   "Roof",
-  "A Bay",
+  "aBay",
 ];
 
 // eslint-disable-next-line no-extend-native

@@ -26,10 +26,6 @@ const router = createHashRouter([
     path: "/analytics",
     element: <Analytics />,
   },
-  {
-    path: "/hasher",
-    element: <Roothasher />,
-  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

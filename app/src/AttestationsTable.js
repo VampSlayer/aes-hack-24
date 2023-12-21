@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function AttestationsTable({ attestations }) {
   return (
     <table className="table">
@@ -17,7 +19,13 @@ export default function AttestationsTable({ attestations }) {
           <tr key={x.id}>
             <td>
               {index}:
-              {x?.data?.find((x) => x.name === "uniqueId")?.value?.value}
+              <Link
+                to={`/info?item_id=${
+                  x?.data?.find((x) => x.name === "uniqueId")?.value?.value
+                }`}
+              >
+                {x?.data?.find((x) => x.name === "uniqueId")?.value?.value}
+              </Link>
             </td>
             <td>{x.recipient}</td>
             <td>{new Date(x.time * 1000).toLocaleString()}</td>

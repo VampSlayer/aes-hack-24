@@ -8,6 +8,11 @@ export default function Home() {
         <Link to={`/analytics`}>Analytics</Link>
       </div>
       <div>
+        <Link to={`https://lab.miguelmota.com/merkletreejs/example/`}>
+          Hasher
+        </Link>
+      </div>
+      <div>
         <h2>Public Items</h2>
         <table className="table">
           <thead>
