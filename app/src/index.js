@@ -5,8 +5,13 @@ import Buy from "./Buy";
 
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Info from "./Info";
+import Home from "./Home";
 
 const router = createHashRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/buy",
     element: <Buy />,

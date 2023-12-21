@@ -26,8 +26,7 @@ export default function Buy() {
   const onBuy = async () => {
     setLoading(true);
     const easContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e";
-    const schemaUID =
-      "0x90212d44d929d10cbe1a0a2d105b5f2527b50e84b520e3259c69d2ad5fb6e702";
+    const schemaUID = ownershipShemaId;
 
     const eas = new EAS(easContractAddress);
 
@@ -40,8 +39,6 @@ export default function Buy() {
       "fce41d3fb5a1402f9e1ea1f49ab6d921" // INFURA PUBLIC KEY
     );
 
-    console.log(infuraProvider._network);
-
     const signer = new Wallet(
       process.env.REACT_APP_WALLET_PRIVATE_KEY,
       infuraProvider
@@ -50,14 +47,14 @@ export default function Buy() {
     eas.connect(signer);
 
     if (anyForRevoke.length) {
-      console.log(anyForRevoke);
-      const txy = await eas.revoke({
+      const revoke = await eas.revoke({
         schema: schemaUID,
         data: {
           uid: anyForRevoke[0].id,
         },
       });
-      await txy.wait();
+
+      await revoke.wait();
     }
 
     // // Initialize SchemaEncoder with the schema string
@@ -65,7 +62,7 @@ export default function Buy() {
     const encodedData = schemaEncoder.encodeData([
       { name: "uniqueId", value: "46455", type: "uint16" },
     ]);
-    const tx = await eas.attest({
+    const attest = await eas.attest({
       schema: schemaUID,
       data: {
         recipient: "0x750438E8BFD00206329B328DC7B4FE463ccAbe9b",
@@ -74,27 +71,32 @@ export default function Buy() {
         data: encodedData,
       },
     });
-    const newAttestationUID = await tx.wait();
-    console.log(newAttestationUID);
+
+    await attest.wait();
+
     setAttestations(await getAttestationsForItem(itemId));
     setLoading(false);
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
-        <img
-          alt="hat"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Felthat.jpg/640px-Felthat.jpg"
-        />
+        <h1>A bay for buying</h1>
+        <h2>BrandX Item</h2>
+        <div>
+          <img
+            alt="hat"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Felthat.jpg/640px-Felthat.jpg"
+          />
+        </div>
+        <div>
+          <h2>Price: $999</h2>
+        </div>
+        {loading && <h2>Purchasing & Authenticating 🧾 .....</h2>}
+        <button disabled={loading} onClick={() => onBuy()}>
+          Buy
+        </button>
       </div>
-      <div>
-        <h2>Price: $999</h2>
-      </div>
-      {loading && <h2>Purchasing & Authenticating 🧾 .....</h2>}
-      <button disabled={loading} onClick={() => onBuy()}>
-        Buy
-      </button>
       <Attestations attestations={attestations} itemId={itemId}></Attestations>
     </div>
   );

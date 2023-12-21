@@ -47,5 +47,5 @@ export async function getAttestationsForItem(itemId) {
     },
   });
 
-  return (await response.json()).data.attestations;
+  return (await response.json())?.data?.attestations;
 }

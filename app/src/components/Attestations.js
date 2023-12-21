@@ -12,6 +12,7 @@ export default function Attestations({ itemId, attestations }) {
     <div>
       <div>
         <h1>BrandX Item</h1>
+        <p>ItemX with Serial Number {itemId}</p>
       </div>
       <div>
         <h2>Authenticity</h2>
@@ -54,8 +55,9 @@ export default function Attestations({ itemId, attestations }) {
                   <td>{x.recipient}</td>
                   <td>{new Date(x.time * 1000).toLocaleString()}</td>
                   <td>
-                    {x.revocationTime &&
-                      new Date(x.revocationTime * 1000).toLocaleString()}
+                    {x.revocationTime
+                      ? new Date(x.revocationTime * 1000).toLocaleString()
+                      : ""}
                   </td>
                 </tr>
               ))}
