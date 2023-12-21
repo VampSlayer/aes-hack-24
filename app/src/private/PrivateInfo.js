@@ -55,6 +55,7 @@ export default function PrivateInfo() {
       },
     });
     await tx.wait();
+    setAttestations(await getAttestationsForPrivateItem(itemId));
     setLoading(false);
   };
 

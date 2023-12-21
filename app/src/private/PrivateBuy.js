@@ -88,8 +88,6 @@ export default function PrivateBuy() {
 
     eas.connect(signer);
 
-    debugger;
-
     if (anyForRevoke.length) {
       const revoke = await eas.revoke({
         schema: schemaUID,
@@ -123,7 +121,7 @@ export default function PrivateBuy() {
     });
 
     await attest.wait();
-
+    setAttestations(await getAttestationsForPrivateItem(itemId));
     setLoading(false);
   };
 
@@ -131,7 +129,7 @@ export default function PrivateBuy() {
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
         <h1>{marketplace}</h1>
-        <h2>Random items</h2>
+        <h2>Christmas Stocking</h2>
         <div>
           <img
             style={{ width: "500px", height: "500px" }}

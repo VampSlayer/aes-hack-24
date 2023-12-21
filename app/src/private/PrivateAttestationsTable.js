@@ -3,7 +3,7 @@ export default function PrivateAttestationsTable({ attestations }) {
     <table className="table">
       <thead>
         <tr>
-          <th>Index:ItemId</th>
+          <th>Index</th>
           <th>Bought</th>
           <th>Sold</th>
           <th>Merkleroot</th>
@@ -13,10 +13,7 @@ export default function PrivateAttestationsTable({ attestations }) {
       <tbody>
         {attestations?.map((x, index) => (
           <tr key={x.id}>
-            <td>
-              {index}:
-              {x?.data?.find((x) => x.name === "uniqueId")?.value?.value}
-            </td>
+            <td>{index}</td>
             <td>{new Date(x.time * 1000).toLocaleString()}</td>
             <td>
               {x.revocationTime
