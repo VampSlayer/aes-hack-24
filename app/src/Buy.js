@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   ownershipShemaId,
   getAttestationsForItem,
+  items,
 } from "./attestations-client";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { InfuraProvider, Wallet } from "ethers";
@@ -114,10 +115,12 @@ export default function Buy() {
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
         <h1>{marketplace}</h1>
+        <h2>Christmas Jumper</h2>
         <div>
           <img
-            alt="hat"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Felthat.jpg/640px-Felthat.jpg"
+            style={{ width: "500px", height: "500px" }}
+            alt="product"
+            src={items.find((x) => x.id === itemId)?.src}
           />
         </div>
         <div>

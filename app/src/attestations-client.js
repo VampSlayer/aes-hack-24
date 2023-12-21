@@ -68,3 +68,26 @@ export async function getAttestationsForItem(itemId) {
     }),
   };
 }
+
+export const items = [
+  {
+    id: "46455",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKqjo-4tOpsXBPLBNQeEW6tSPGk6Kt1OzDoQ&usqp=CAU",
+  },
+  {
+    id: "12345",
+    src: "https://www.merchoid.com/media/mf_webp/jpeg/media/catalog/product/cache/65c63282a2b3bd0da0ec5b004bcde549/s/p/spidermannew.webp",
+  },
+  {
+    id: "98765",
+    src: "https://m.media-amazon.com/images/I/61MaiRgtJWL._AC_UY580_.jpg",
+  },
+  {
+    id: "45678",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH4kIcgDAve5m4HcsiUQrXNu5q-4-i-aMVBA&usqp=CAU",
+  },
+  {
+    id: "19283",
+    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlolfuzlb7FKUs7XhXYQnQm_WgmsHPXARMZg&usqp=CAU",
+  },
+];
