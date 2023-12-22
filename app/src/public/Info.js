@@ -60,7 +60,7 @@ export default function Info() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div className="container">
       {attestations?.authenticity?.length ? (
         <Attestations attestations={attestations} itemId={itemId} />
       ) : (

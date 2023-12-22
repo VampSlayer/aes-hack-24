@@ -60,7 +60,7 @@ export default function PrivateInfo() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div className="container">
       {attestations?.authenticity?.length ? (
         <PrivateAttestation attestations={attestations} itemId={itemId} />
       ) : (
