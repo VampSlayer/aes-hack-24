@@ -13,7 +13,7 @@ export default function Home() {
         </Link>
       </div>
       <div>
-        <h2>Public Items</h2>
+        <h2>Public Sales & Public Data</h2>
         <table className="table">
           <thead>
             <tr>
@@ -38,7 +38,7 @@ export default function Home() {
         </table>
       </div>
       <div>
-        <h2>Private Items</h2>
+        <h2>Public Sales & Private Data</h2>
         <table className="table">
           <thead>
             <tr>
